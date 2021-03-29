@@ -7,25 +7,40 @@ import java.net.Socket;
 
 public class Server {
     private ServerSocket serverSocket = null;
-    private final int PORT;
+    private int PORT;
 
-    private File serverFile = new File("serverFile/");
-    private File clientFile = new File("clientFile/");
-
-    public Server(int port) throws IOException {
-        serverSocket = new ServerSocket(port);
-        this.PORT = port;
+    public Server(int PORT) throws IOException {
+        serverSocket = new ServerSocket(PORT);
+        this.PORT = PORT;
     }
 
     public void handleRequests() throws IOException {
-        System.out.printf("Server is listening to port: %d", this.PORT);
+        System.out.printf("Server is listening on PORT: %d\n", this.PORT);
 
         // creating a thread to handle each of the clients
-        while (true) {
+        while(true) {
             Socket clientSocket = serverSocket.accept();
-            ConnectionHandler handler = new ConnectionHandler(clientSocket);
+            ClientConnectionHandler handler = new ClientConnectionHandler(clientSocket);
             Thread handlerThread = new Thread(handler);
+
             handlerThread.start();
         }
+
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        int port = 8080;
+
+        if (args.length > 1) {
+            port = Integer.parseInt(args[0]);
+        }
+
+        // instantiate the Server class
+        Server server = new Server(port);
+
+        server.handleRequests();
+
+
     }
 }
