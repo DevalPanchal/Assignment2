@@ -16,18 +16,14 @@ public class Server {
 
     public void handleRequests() throws IOException {
         System.out.printf("Server is listening on PORT: %d\n", this.PORT);
-
         // creating a thread to handle each of the clients
         while(true) {
             Socket clientSocket = serverSocket.accept();
             ClientConnectionHandler handler = new ClientConnectionHandler(clientSocket);
             Thread handlerThread = new Thread(handler);
-
             handlerThread.start();
         }
-
     }
-
 
     public static void main(String[] args) throws IOException {
         int port = 8080;
@@ -40,7 +36,5 @@ public class Server {
         Server server = new Server(port);
 
         server.handleRequests();
-
-
     }
 }
