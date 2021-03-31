@@ -4,37 +4,49 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * 1. server is running
+ * 2. user starts client
+ * 3. user clicks on local file
+ * 4. user clicks "upload"
+ * 5. client connects to server
+ * 6. client sends selected file to server
+ * 7. server receives file
+ * 8. server parses response and creates file in shared directory
+ * 9. server ends connection
+ */
 
 public class Server {
-    private ServerSocket serverSocket = null;
-    private int PORT;
+    private ServerSocket socket = null;
+    private int port;
 
-    public Server(int PORT) throws IOException {
-        serverSocket = new ServerSocket(PORT);
-        this.PORT = PORT;
+    public Server(int port) throws IOException {
+        this.port = port;
+        socket = new ServerSocket(port);
     }
 
     public void handleRequests() throws IOException {
-        System.out.printf("Server is listening on PORT: %d\n", this.PORT);
-        // creating a thread to handle each of the clients
+        System.out.printf("Server is listening on port %d.\n", this.port);
+        ExecutorService threadPool = Executors.newFixedThreadPool(10);
         while(true) {
-            Socket clientSocket = serverSocket.accept();
-            ClientConnectionHandler handler = new ClientConnectionHandler(clientSocket);
-            Thread handlerThread = new Thread(handler);
-            handlerThread.start();
+            Socket acceptedSocket = socket.accept();
+            if (acceptedSocket.isConnected()) {
+                threadPool.execute(new ClientConnectionHandler(acceptedSocket));
+            }
         }
     }
 
     public static void main(String[] args) throws IOException {
         int port = 8080;
-
-        if (args.length > 1) {
-            port = Integer.parseInt(args[0]);
+        try {
+            Server server = new Server(port);
+            server.handleRequests();
+        } catch(IOException e) {
+            e.printStackTrace();
         }
-
-        // instantiate the Server class
-        Server server = new Server(port);
-
-        server.handleRequests();
     }
+
 }

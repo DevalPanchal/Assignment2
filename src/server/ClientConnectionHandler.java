@@ -10,16 +10,12 @@ import java.util.StringTokenizer;
 public class ClientConnectionHandler implements Runnable {
 
     private Socket socket = null;
-    private File FILE_TO_SEND = new File("ServerFiles/");
-    private FileInputStream requestInput = null;
-    private BufferedInputStream bufferInputStream = null;
-    private OutputStream outputStream = null;
-
+    private final File file = new File("ServerDownload/");
 
     public ClientConnectionHandler(Socket socket) throws IOException {
         this.socket = socket;
-        this.requestInput = new FileInputStream(String.valueOf(socket.getInputStream()));
     }
+
 
     /**
      * When an object implementing interface {@code Runnable} is used
@@ -35,45 +31,29 @@ public class ClientConnectionHandler implements Runnable {
     @Override
     public void run() {
         try {
-            handleRequests();
+            download(socket, this.file);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                requestInput.close();
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
-    private void handleRequests() throws IOException {
-        try {
-            // get client input stream
-            File myFile = new File(FILE_TO_SEND.getName());
-            byte[] content = new byte[(int) myFile.length()];
+    public void download(Socket socket, File file) throws IOException {
+        DataInputStream input = new DataInputStream(socket.getInputStream());
+        FileOutputStream output = new FileOutputStream(file + "/server.txt");
+        byte[] content = new byte[4096];
 
-            requestInput = new FileInputStream(myFile);
-            bufferInputStream = new BufferedInputStream(requestInput);
-            bufferInputStream.read(content, 0, content.length);
+        int fileSize = 15123;
+        int read = 0;
+        int totalRead = 0;
+        int remaining = fileSize;
 
-            outputStream = socket.getOutputStream();
-
-            System.out.println("Sending " + FILE_TO_SEND.getName() + "( " + content.length + " )" + " bytes");
-            outputStream.write(content, 0, content.length);
-            outputStream.flush();
-            System.out.println("Done.");
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                bufferInputStream.close();
-                outputStream.close();
-                socket.close();
-            } catch (IOException e) {
-
-            }
+        while((read = input.read(content, 0, Math.min(content.length, remaining))) > 0) {
+            totalRead += read;
+            remaining -= read;
+            System.out.println("read " + totalRead + " bytes.");
+            output.write(content, 0, read);
         }
+        output.close();
+        input.close();
     }
 }
