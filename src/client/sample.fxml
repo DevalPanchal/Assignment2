@@ -31,8 +31,8 @@
     </GridPane>
 
     <GridPane GridPane.rowIndex="2" GridPane.columnIndex="0">
-        <ListView fx:id="serverFiles" GridPane.rowIndex="2" GridPane.columnIndex="0"></ListView>
-        <ListView fx:id="clientFiles" GridPane.rowIndex="2" GridPane.columnIndex="1"></ListView>
+        <ListView fx:id="clientFiles" GridPane.rowIndex="2" GridPane.columnIndex="0"></ListView>
+        <ListView fx:id="serverFiles" GridPane.rowIndex="2" GridPane.columnIndex="1"></ListView>
     </GridPane>
 
 </GridPane>

@@ -5,12 +5,17 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class ClientConnectionHandler implements Runnable {
 
     private Socket socket = null;
     private final File file = new File("ServerDownload/");
+
+    private PrintWriter outputStream;
+    private ObjectInputStream objInputStream;
+    private BufferedReader reader;
 
     public ClientConnectionHandler(Socket socket) throws IOException {
         this.socket = socket;
@@ -31,10 +36,32 @@ public class ClientConnectionHandler implements Runnable {
     @Override
     public void run() {
         try {
-            download(socket, this.file);
+            Scanner inputStream = new Scanner(socket.getInputStream());
+            PrintWriter outputStream = new PrintWriter(socket.getOutputStream(), true);
+
+            //System.out.println(inputStream.nextLine());
+
+//            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//            objInputStream = new ObjectInputStream(socket.getInputStream());
+
+            String line = inputStream.nextLine();
+            System.out.println(line);
+            if (line.equals("UPLOAD")) {
+                System.out.println("Please Work");
+                download(socket, this.file);
+            } else if (line.equals("DOWNLOAD")) {
+                System.out.println("Please Work!");
+                //download(socket, this.file);
+            }
+            //download(socket, this.file);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void getFile() throws IOException {
+        outputStream = new PrintWriter(socket.getOutputStream());
+        outputStream.println(this.file.getName());
     }
 
     public void download(Socket socket, File file) throws IOException {
