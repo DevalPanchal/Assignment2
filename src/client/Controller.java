@@ -148,6 +148,7 @@ public class Controller {
         currentStage.hide();
         try {
             Stage newStage = new Stage();
+            Main.setPrimaryStage(newStage);
             Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
             newStage.setScene(new Scene(root, 500, 500));
             newStage.setTitle("File Sharing");

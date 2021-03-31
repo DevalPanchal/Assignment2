@@ -44,19 +44,8 @@ public class ClientConnectionHandler implements Runnable {
             Scanner inputStream = new Scanner(socket.getInputStream());
             PrintWriter outputStream = new PrintWriter(socket.getOutputStream(), true);
 
-            String line = inputStream.nextLine();
+            String line = inputStream.next();
             System.out.println(line);
-
-//            switch (line) {
-//                case "UPLOAD" -> {
-//                    System.out.println("Please work!");
-//                    sendFile(socket, this.serverPath, serverFile);
-//                }
-//                case "DOWNLOAD" -> {
-//                    System.out.println("Please work!");
-//                    sendFile(socket, this.clientPath, clientFile);
-//                }
-//            }
 
             if (line.equals("UPLOAD")) {
                 System.out.println("Please Work");
@@ -64,8 +53,11 @@ public class ClientConnectionHandler implements Runnable {
             } else if (line.equals("DOWNLOAD")) {
                 System.out.println("Please Work!");
                 sendFile(socket, this.clientPath, clientFile);
+            } else {
+                inputStream.close();
+                socket.close();
             }
-            inputStream.close();
+
             //download(socket, this.file);
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,6 +67,7 @@ public class ClientConnectionHandler implements Runnable {
     public void sendFile(Socket socket, File file, String sendPath) throws IOException {
         DataInputStream input = new DataInputStream(socket.getInputStream());
         FileOutputStream output = new FileOutputStream(file + "/" + sendPath);
+
         byte[] content = new byte[4096];
 
         int fileSize = 15123;
