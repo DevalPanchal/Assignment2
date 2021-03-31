@@ -47,24 +47,25 @@ public class ClientConnectionHandler implements Runnable {
             String line = inputStream.nextLine();
             System.out.println(line);
 
-            switch (line) {
-                case "UPLOAD" -> {
-                    System.out.println("Please work!");
-                    sendFile(socket, this.serverPath, serverFile);
-                }
-                case "DOWNLOAD" -> {
-                    System.out.println("Please work!");
-                    sendFile(socket, this.clientPath, clientFile);
-                }
+//            switch (line) {
+//                case "UPLOAD" -> {
+//                    System.out.println("Please work!");
+//                    sendFile(socket, this.serverPath, serverFile);
+//                }
+//                case "DOWNLOAD" -> {
+//                    System.out.println("Please work!");
+//                    sendFile(socket, this.clientPath, clientFile);
+//                }
+//            }
+
+            if (line.equals("UPLOAD")) {
+                System.out.println("Please Work");
+                sendFile(socket, this.serverPath, serverFile);
+            } else if (line.equals("DOWNLOAD")) {
+                System.out.println("Please Work!");
+                sendFile(socket, this.clientPath, clientFile);
             }
             inputStream.close();
-//            if (line.equals("UPLOAD")) {
-//                System.out.println("Please Work");
-//                sendFile(socket, this.serverPath, serverFile);
-//            } else if (line.equals("DOWNLOAD")) {
-//                System.out.println("Please Work!");
-//                sendFile(socket, this.clientPath, clientFile);
-//            }
             //download(socket, this.file);
         } catch (IOException e) {
             e.printStackTrace();
