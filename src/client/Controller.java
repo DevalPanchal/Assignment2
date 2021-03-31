@@ -48,12 +48,12 @@ public class Controller {
         });
 
         DownloadButton.setOnAction(actionEvent -> {
-           try {
-               download("server.txt");
-               clientFiles.setItems(FXCollections.observableArrayList(clientDir.list()));
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
+            try {
+                download("server.txt");
+                clientFiles.setItems(FXCollections.observableArrayList(clientDir.list()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -68,9 +68,10 @@ public class Controller {
         var output = new DataOutputStream(socket.getOutputStream());
         var input = new FileInputStream(clientDir + "/" + file);
 
-        byte[] content = new byte[4096];
-        while(input.read(content) > 0) {
-            output.write(content);
+        int character;
+
+        while((character = input.read()) != -1) {
+            output.write((char) character);
         }
 
         output.close();
@@ -85,6 +86,26 @@ public class Controller {
      * @throws IOException
      */
     public void download(String file) throws IOException {
+        sendDownloadMessageToServer();
+        var output = new DataOutputStream(socket.getOutputStream());
+        FileReader reader = new FileReader(serverDir + "/" + file);
+        int character;
+        while ((character = reader.read()) != -1) {
+            output.write((char) character);
+            System.out.print((char) character);
+        }
+        reader.close();
+        output.close();
+        refresh();
+    }
+
+    /**
+     * Will cause the file selected in the right list to transfer from the remote server's shared
+     * folder to the local client's shared folder
+     * @param file
+     * @throws IOException
+     */
+    public void downloadDeprecrated(String file) throws IOException {
         sendDownloadMessageToServer();
 
         var output = new DataOutputStream(socket.getOutputStream());
@@ -101,7 +122,7 @@ public class Controller {
     }
 
     /**
-     * Send upload message to server, telling the server to upload the file to the server
+     * Send upload message to server, telling the server to perform the upload operation when the client hits upload
      * @throws IOException
      */
     public void sendUploadMessageToServer() throws IOException {
@@ -111,6 +132,10 @@ public class Controller {
         output.flush();
     }
 
+    /**
+     * Send download message to server, telling the server to perform the download operation when the client hits download
+     * @throws IOException
+     */
     public void sendDownloadMessageToServer() throws IOException {
         PrintWriter output = null;
         output = new PrintWriter(new BufferedOutputStream(socket.getOutputStream()));
@@ -121,7 +146,6 @@ public class Controller {
     public void refresh() {
         Stage currentStage = Main.getPrimaryStage();
         currentStage.hide();
-
         try {
             Stage newStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
