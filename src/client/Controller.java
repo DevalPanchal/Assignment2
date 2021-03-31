@@ -25,6 +25,7 @@ public class Controller {
     @FXML private final File serverDir = new File("ServerDownload/");
 
     @FXML private Button UploadButton;
+    @FXML private Button DownloadButton;
 
     public Controller() throws IOException { /* */ }
 
@@ -44,6 +45,15 @@ public class Controller {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        });
+
+        DownloadButton.setOnAction(actionEvent -> {
+           try {
+               download("server.txt");
+               clientFiles.setItems(FXCollections.observableArrayList(clientDir.list()));
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
         });
     }
 
@@ -68,13 +78,6 @@ public class Controller {
         refresh();
     }
 
-    public void sendUploadMessageToServer() throws IOException {
-        PrintWriter output = null;
-        output = new PrintWriter(new BufferedOutputStream(socket.getOutputStream()));
-        output.println("UPLOAD");
-        output.flush();
-    }
-
     /**
      * Will cause the file selected in the right list to transfer from the remote server's shared
      * folder to the local client's shared folder
@@ -82,7 +85,37 @@ public class Controller {
      * @throws IOException
      */
     public void download(String file) throws IOException {
+        sendDownloadMessageToServer();
 
+        var output = new DataOutputStream(socket.getOutputStream());
+        var input = new FileInputStream(serverDir + "/" + file);
+
+        byte[] content = new byte[4096];
+        while(input.read(content) > 0) {
+            output.write(content);
+        }
+
+        output.close();
+        input.close();
+        refresh();
+    }
+
+    /**
+     * Send upload message to server, telling the server to upload the file to the server
+     * @throws IOException
+     */
+    public void sendUploadMessageToServer() throws IOException {
+        PrintWriter output = null;
+        output = new PrintWriter(new BufferedOutputStream(socket.getOutputStream()));
+        output.println("UPLOAD");
+        output.flush();
+    }
+
+    public void sendDownloadMessageToServer() throws IOException {
+        PrintWriter output = null;
+        output = new PrintWriter(new BufferedOutputStream(socket.getOutputStream()));
+        output.println("DOWNLOAD");
+        output.flush();
     }
 
     public void refresh() {

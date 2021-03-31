@@ -11,7 +11,12 @@ import java.util.StringTokenizer;
 public class ClientConnectionHandler implements Runnable {
 
     private Socket socket = null;
-    private final File file = new File("ServerDownload/");
+    private final File serverPath = new File("ServerDownload/");
+    private final File clientPath = new File("ClientDownload/");
+
+
+    private final String serverFile = "server.txt";
+    private final String clientFile = "client.txt";
 
     private PrintWriter outputStream;
     private ObjectInputStream objInputStream;
@@ -39,34 +44,36 @@ public class ClientConnectionHandler implements Runnable {
             Scanner inputStream = new Scanner(socket.getInputStream());
             PrintWriter outputStream = new PrintWriter(socket.getOutputStream(), true);
 
-            //System.out.println(inputStream.nextLine());
-
-//            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//            objInputStream = new ObjectInputStream(socket.getInputStream());
-
             String line = inputStream.nextLine();
             System.out.println(line);
-            if (line.equals("UPLOAD")) {
-                System.out.println("Please Work");
-                download(socket, this.file);
-            } else if (line.equals("DOWNLOAD")) {
-                System.out.println("Please Work!");
-                //download(socket, this.file);
+
+            switch (line) {
+                case "UPLOAD" -> {
+                    System.out.println("Please work!");
+                    sendFile(socket, this.serverPath, serverFile);
+                }
+                case "DOWNLOAD" -> {
+                    System.out.println("Please work!");
+                    sendFile(socket, this.clientPath, clientFile);
+                }
             }
+            inputStream.close();
+//            if (line.equals("UPLOAD")) {
+//                System.out.println("Please Work");
+//                sendFile(socket, this.serverPath, serverFile);
+//            } else if (line.equals("DOWNLOAD")) {
+//                System.out.println("Please Work!");
+//                sendFile(socket, this.clientPath, clientFile);
+//            }
             //download(socket, this.file);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void getFile() throws IOException {
-        outputStream = new PrintWriter(socket.getOutputStream());
-        outputStream.println(this.file.getName());
-    }
-
-    public void download(Socket socket, File file) throws IOException {
+    public void sendFile(Socket socket, File file, String sendPath) throws IOException {
         DataInputStream input = new DataInputStream(socket.getInputStream());
-        FileOutputStream output = new FileOutputStream(file + "/server.txt");
+        FileOutputStream output = new FileOutputStream(file + "/" + sendPath);
         byte[] content = new byte[4096];
 
         int fileSize = 15123;
