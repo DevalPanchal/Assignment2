@@ -21,7 +21,7 @@ public class Controller {
     @FXML private ListView<String> clientFiles;
     @FXML private ListView<String> serverFiles;
 
-    @FXML private final File clientDir = new File("ClientDownload/");
+    @FXML private final File clientDir = new File(client.Main.getFileDestination());
     @FXML private final File serverDir = new File("ServerDownload/");
 
     @FXML private Button UploadButton;
@@ -58,7 +58,7 @@ public class Controller {
     }
 
     /**
-     * Copy's a file from the main.java.client's local shared folder to the server's remote shared folder
+     * Copy's a file from the main.java.client's local shared folder to the server's remote shared folder [left to right]
      * @param file
      * @throws IOException
      */
@@ -79,7 +79,7 @@ public class Controller {
     }
 
     /**
-     * Will cause the file selected in the right list to transfer from the remote server's shared
+     * Will cause the file selected in the right list to transfer from the remote server's shared [right to left]
      * folder to the local main.java.client's shared folder
      * @param file
      * @throws IOException
@@ -132,6 +132,7 @@ public class Controller {
     }
 
     /**
+    /**
      * Send download message to server, telling the server to perform the download operation when the main.java.client hits download
      * @throws IOException
      */
@@ -156,8 +157,10 @@ public class Controller {
             e.printStackTrace();
         }
     }
+
     public void exit() {
         Stage currentStage = client.Main.getPrimaryStage();
         currentStage.close();
     }
+
 }

@@ -1,8 +1,8 @@
-server/ClientConnectionHandler.java
- server.ClientConnectionHandler
-client/Controller.java
- client.Controller
 client/Main.java
  client.Main
+server/ClientConnectionHandler.java
+ server.ClientConnectionHandler
 server/Server.java
  server.Server
+client/Controller.java
+ client.Controller

@@ -6,6 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class Main extends Application {
     private static Stage primaryStage;
 
@@ -15,6 +19,16 @@ public class Main extends Application {
 
     public static Stage getPrimaryStage () {
         return Main.primaryStage;
+    }
+
+    public static String fileDestination;
+
+    public static void setFileDestination(String file) {
+        fileDestination = file;
+    }
+
+    public static String getFileDestination() {
+        return fileDestination;
     }
 
     @Override
@@ -27,6 +41,10 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        //System.out.println("This is the first args " + args[0]);
+//        fileDestination = args[0];
+        setFileDestination(args[0]);
+        System.out.println(fileDestination);
         launch(args);
     }
 }

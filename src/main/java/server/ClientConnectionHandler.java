@@ -12,6 +12,8 @@ public class ClientConnectionHandler implements Runnable {
 
     private Socket socket = null;
 
+
+
     private final File serverPath = new File("ServerDownload/");
     private final File clientPath = new File("ClientDownload/");
 
