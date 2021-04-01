@@ -1,2 +1,0 @@
-Well it seems to be doing everything in the instructions except for the DIR and command line args. Which is kinda
-annoying coz that means I have to use gradle, and I dont like gradle, npm >>>>> gradle.

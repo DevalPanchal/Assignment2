@@ -12,13 +12,11 @@ public class ClientConnectionHandler implements Runnable {
 
     private Socket socket = null;
 
-
-
     private final File serverPath = new File("ServerDownload/");
-    private final File clientPath = new File("ClientDownload/");
+    private File clientPath = null;
 
     private final String serverFile = "server.txt";
-    private final String clientFile = "main.java.client.txt";
+    private final String clientFile = "client.txt";
 
     private PrintWriter outputStream;
     private ObjectInputStream objInputStream;
@@ -41,28 +39,41 @@ public class ClientConnectionHandler implements Runnable {
      */
     @Override
     public void run() {
+        //clientPath = new File(client.Main.getFileDestination());
         try {
             Scanner inputStream = new Scanner(socket.getInputStream());
             PrintWriter outputStream = new PrintWriter(socket.getOutputStream(), true);
 
             String line = inputStream.next();
+            clientPath = new File(inputStream.next());
             System.out.println(line);
+            System.out.println(clientPath);
 
-            if (line.equals("UPLOAD")) {
-                System.out.println("Please Work");
-                sendFile(socket, this.serverPath, serverFile);
-            } else if (line.equals("DOWNLOAD")) {
-                System.out.println("Please Work!");
-                sendFile(socket, this.clientPath, clientFile);
-            } else {
-                inputStream.close();
-                socket.close();
+            switch(line) {
+                case "UPLOAD":
+                    sendFile(socket, this.serverPath, serverFile);
+                case "DOWNLOAD":
+                    sendFile(socket, this.clientPath, clientFile);
+                default :
+                    inputStream.close();
+                    socket.close();
             }
 
+//            if (line.equals("UPLOAD")) {
+//                System.out.println(clientPath);
+//                sendFile(socket, this.serverPath, serverFile);
+//            } else if (line.equals("DOWNLOAD")) {
+//                System.out.println(clientPath);
+//                sendFile(socket, this.clientPath, clientFile);
+//            } else {
+//                inputStream.close();
+//                socket.close();
+//            }
             //download(socket, this.file);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void sendFile(Socket socket, File file, String sendPath) throws IOException {

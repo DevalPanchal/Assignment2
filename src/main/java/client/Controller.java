@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
@@ -27,10 +28,11 @@ public class Controller {
     @FXML private Button UploadButton;
     @FXML private Button DownloadButton;
 
+    @FXML private Label computerName;
+
     public Controller() throws IOException { /* */ }
 
-    @FXML
-    MenuItem exitClient;
+    @FXML MenuItem exitClient;
 
     public void initialize() {
         clientFiles.setItems(FXCollections.observableArrayList(clientDir.list()));
@@ -40,7 +42,7 @@ public class Controller {
 
         UploadButton.setOnAction(actionEvent -> {
             try {
-                upload("main.java.client.txt");
+                upload("client.txt");
                 serverFiles.setItems(FXCollections.observableArrayList(serverDir.list()));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -91,7 +93,7 @@ public class Controller {
         int character;
         while ((character = reader.read()) != -1) {
             output.write((char) character);
-            System.out.print((char) character);
+            //System.out.print((char) character);
         }
         reader.close();
         output.close();
@@ -114,7 +116,6 @@ public class Controller {
         while(input.read(content) > 0) {
             output.write(content);
         }
-
         output.close();
         input.close();
         refresh();
@@ -128,6 +129,7 @@ public class Controller {
         PrintWriter output = null;
         output = new PrintWriter(new BufferedOutputStream(socket.getOutputStream()));
         output.println("UPLOAD");
+        output.println(client.Main.getFileDestination());
         output.flush();
     }
 
@@ -140,6 +142,7 @@ public class Controller {
         PrintWriter output = null;
         output = new PrintWriter(new BufferedOutputStream(socket.getOutputStream()));
         output.println("DOWNLOAD");
+        output.println(client.Main.getFileDestination());
         output.flush();
     }
 
@@ -162,5 +165,4 @@ public class Controller {
         Stage currentStage = client.Main.getPrimaryStage();
         currentStage.close();
     }
-
 }

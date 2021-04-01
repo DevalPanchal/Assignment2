@@ -22,6 +22,7 @@ public class Main extends Application {
     }
 
     public static String fileDestination;
+    public static String computerName;
 
     public static void setFileDestination(String file) {
         fileDestination = file;
@@ -29,6 +30,14 @@ public class Main extends Application {
 
     public static String getFileDestination() {
         return fileDestination;
+    }
+
+    public static void setComputerName(String name) {
+        computerName = name;
+    }
+
+    public static String getComputerName() {
+        return computerName;
     }
 
     @Override
@@ -44,7 +53,8 @@ public class Main extends Application {
         //System.out.println("This is the first args " + args[0]);
 //        fileDestination = args[0];
         setFileDestination(args[0]);
-        System.out.println(fileDestination);
+        setComputerName(args[1]);
+//        System.out.println(fileDestination);
         launch(args);
     }
 }

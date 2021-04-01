@@ -27,6 +27,7 @@
     <GridPane GridPane.rowIndex="1" GridPane.columnIndex="0" hgap="10">
         <Button fx:id="DownloadButton" GridPane.rowIndex="1" GridPane.columnIndex="0" text="Download" styleClass="btn" />
         <Button fx:id="UploadButton" GridPane.rowIndex="1" GridPane.columnIndex="1" text="Upload" styleClass="btn" />
+        <Label fx:id="computerName" />
     </GridPane>
 
     <GridPane GridPane.rowIndex="2" GridPane.columnIndex="0">
