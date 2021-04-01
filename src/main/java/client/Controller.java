@@ -40,7 +40,7 @@ public class Controller {
 
         UploadButton.setOnAction(actionEvent -> {
             try {
-                upload("client.txt");
+                upload("main.java.client.txt");
                 serverFiles.setItems(FXCollections.observableArrayList(serverDir.list()));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -58,13 +58,12 @@ public class Controller {
     }
 
     /**
-     * Copy's a file from the client's local shared folder to the server's remote shared folder
+     * Copy's a file from the main.java.client's local shared folder to the server's remote shared folder
      * @param file
      * @throws IOException
      */
     public void upload(String file) throws IOException {
         sendUploadMessageToServer();
-
         var output = new DataOutputStream(socket.getOutputStream());
         var input = new FileInputStream(clientDir + "/" + file);
 
@@ -81,7 +80,7 @@ public class Controller {
 
     /**
      * Will cause the file selected in the right list to transfer from the remote server's shared
-     * folder to the local client's shared folder
+     * folder to the local main.java.client's shared folder
      * @param file
      * @throws IOException
      */
@@ -101,7 +100,7 @@ public class Controller {
 
     /**
      * Will cause the file selected in the right list to transfer from the remote server's shared
-     * folder to the local client's shared folder
+     * folder to the local main.java.client's shared folder
      * @param file
      * @throws IOException
      */
@@ -122,7 +121,7 @@ public class Controller {
     }
 
     /**
-     * Send upload message to server, telling the server to perform the upload operation when the client hits upload
+     * Send upload message to server, telling the server to perform the upload operation when the main.java.client hits upload
      * @throws IOException
      */
     public void sendUploadMessageToServer() throws IOException {
@@ -133,7 +132,7 @@ public class Controller {
     }
 
     /**
-     * Send download message to server, telling the server to perform the download operation when the client hits download
+     * Send download message to server, telling the server to perform the download operation when the main.java.client hits download
      * @throws IOException
      */
     public void sendDownloadMessageToServer() throws IOException {
@@ -144,11 +143,11 @@ public class Controller {
     }
 
     public void refresh() {
-        Stage currentStage = Main.getPrimaryStage();
+        Stage currentStage = client.Main.getPrimaryStage();
         currentStage.hide();
         try {
             Stage newStage = new Stage();
-            Main.setPrimaryStage(newStage);
+            client.Main.setPrimaryStage(newStage);
             Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
             newStage.setScene(new Scene(root, 500, 500));
             newStage.setTitle("File Sharing");
@@ -157,9 +156,8 @@ public class Controller {
             e.printStackTrace();
         }
     }
-
     public void exit() {
-        Stage currentStage = Main.getPrimaryStage();
+        Stage currentStage = client.Main.getPrimaryStage();
         currentStage.close();
     }
 }

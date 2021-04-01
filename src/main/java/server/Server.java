@@ -9,11 +9,11 @@ import java.util.concurrent.Executors;
 
 /**
  * 1. server is running
- * 2. user starts client
+ * 2. user starts main.java.client
  * 3. user clicks on local file
  * 4. user clicks "upload"
- * 5. client connects to server
- * 6. client sends selected file to server
+ * 5. main.java.client connects to server
+ * 6. main.java.client sends selected file to server
  * 7. server receives file
  * 8. server parses response and creates file in shared directory
  * 9. server ends connection
@@ -34,7 +34,7 @@ public class Server {
         while(true) {
             Socket acceptedSocket = socket.accept();
             if (acceptedSocket.isConnected()) {
-                threadPool.execute(new ClientConnectionHandler(acceptedSocket));
+                threadPool.execute(new server.ClientConnectionHandler(acceptedSocket));
             }
         }
     }

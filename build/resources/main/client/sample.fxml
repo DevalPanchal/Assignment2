@@ -13,13 +13,12 @@
 
 <?import java.net.URL?>
 <GridPane fx:id="gridPane" alignment="TOP_CENTER" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.Controller">
-
     <MenuBar prefWidth="500" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="menubar">
         <menus>
             <Menu text="File">
                 <items>
-                    <MenuItem fx:id="exitClient" text="Exit" styleClass="exitItem"/>
-                    <MenuItem fx:id="directory" text="Directory" styleClass="directoryItem"/>
+                    <MenuItem fx:id="exitClient" text="Exit" styleClass="exitItem" />
+                    <MenuItem fx:id="directory" text="Directory" styleClass="directoryItem" />
                 </items>
             </Menu>
         </menus>
@@ -31,9 +30,10 @@
     </GridPane>
 
     <GridPane GridPane.rowIndex="2" GridPane.columnIndex="0">
-        <ListView fx:id="clientFiles" GridPane.rowIndex="2" GridPane.columnIndex="0"  />
+        <ListView fx:id="clientFiles" GridPane.rowIndex="2" GridPane.columnIndex="0" />
         <ListView fx:id="serverFiles" GridPane.rowIndex="2" GridPane.columnIndex="1" />
     </GridPane>
+
     <stylesheets>
         <URL value="@style.css"></URL>
     </stylesheets>

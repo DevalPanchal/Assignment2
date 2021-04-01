@@ -11,12 +11,12 @@ import java.util.StringTokenizer;
 public class ClientConnectionHandler implements Runnable {
 
     private Socket socket = null;
+
     private final File serverPath = new File("ServerDownload/");
     private final File clientPath = new File("ClientDownload/");
 
-
     private final String serverFile = "server.txt";
-    private final String clientFile = "client.txt";
+    private final String clientFile = "main.java.client.txt";
 
     private PrintWriter outputStream;
     private ObjectInputStream objInputStream;
@@ -25,7 +25,6 @@ public class ClientConnectionHandler implements Runnable {
     public ClientConnectionHandler(Socket socket) throws IOException {
         this.socket = socket;
     }
-
 
     /**
      * When an object implementing interface {@code Runnable} is used
@@ -81,6 +80,7 @@ public class ClientConnectionHandler implements Runnable {
             System.out.println("read " + totalRead + " bytes.");
             output.write(content, 0, read);
         }
+
         output.close();
         input.close();
     }
