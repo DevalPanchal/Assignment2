@@ -53,7 +53,9 @@ public class Main extends Application {
         //System.out.println("This is the first args " + args[0]);
 //        fileDestination = args[0];
         setFileDestination(args[0]);
+
         setComputerName(args[1]);
+        System.out.println(args[0] + " " + args[1]);
 //        System.out.println(fileDestination);
         launch(args);
     }

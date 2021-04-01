@@ -5,10 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -28,13 +25,15 @@ public class Controller {
     @FXML private Button UploadButton;
     @FXML private Button DownloadButton;
 
-    @FXML private Label computerName;
+    @FXML private TextField computerName;
 
     public Controller() throws IOException { /* */ }
 
     @FXML MenuItem exitClient;
 
+
     public void initialize() {
+        computerName.setText(client.Main.getComputerName());
         clientFiles.setItems(FXCollections.observableArrayList(clientDir.list()));
         serverFiles.setItems(FXCollections.observableArrayList(serverDir.list()));
 
@@ -56,6 +55,10 @@ public class Controller {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        });
+
+        serverFiles.getSelectionModel().selectedItemProperty().addListener(actionEvent -> {
+            System.out.println("");
         });
     }
 
@@ -133,7 +136,6 @@ public class Controller {
         output.flush();
     }
 
-    /**
     /**
      * Send download message to server, telling the server to perform the download operation when the main.java.client hits download
      * @throws IOException

@@ -50,10 +50,13 @@ public class ClientConnectionHandler implements Runnable {
             System.out.println(clientPath);
 
             switch(line) {
-                case "UPLOAD":
+                case "UPLOAD" :
                     sendFile(socket, this.serverPath, serverFile);
                 case "DOWNLOAD":
                     sendFile(socket, this.clientPath, clientFile);
+                case "" :
+                    inputStream.close();
+                    socket.close();
                 default :
                     inputStream.close();
                     socket.close();
@@ -73,7 +76,6 @@ public class ClientConnectionHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public void sendFile(Socket socket, File file, String sendPath) throws IOException {
