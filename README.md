@@ -58,8 +58,8 @@ To exit the program, click the "File" tab at the top and select "Exit".
 
 # References:
 Resources used to complete this project
--[Reading File Character by Character](https://www.codejava.net/java-se/file-io/how-to-read-and-write-text-file-in-java)
--[List View](https://docs.oracle.com/javafx/2/ui_controls/list-view.htm)
--[Socket Programming Examples](https://cs.lmu.edu/~ray/notes/javanetexamples/)
--[DataInputStream](https://docs.oracle.com/javase/7/docs/api/java/io/DataInputStream.html)
--Professor Mariana's Http Server Starter Code
+1. [Reading File Character by Character](https://www.codejava.net/java-se/file-io/how-to-read-and-write-text-file-in-java)
+2. [List View](https://docs.oracle.com/javafx/2/ui_controls/list-view.htm)
+3. [Socket Programming Examples](https://cs.lmu.edu/~ray/notes/javanetexamples/)
+4. [DataInputStream](https://docs.oracle.com/javase/7/docs/api/java/io/DataInputStream.html)
+5. Professor Mariana's Http Server Starter Code
