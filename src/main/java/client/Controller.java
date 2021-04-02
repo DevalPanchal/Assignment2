@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -21,10 +23,11 @@ public class Controller {
 
     @FXML private final File clientDir = new File("ClientDownload/");
     // this is the shared folder aka server
-    @FXML private final File serverDir = new File(client.Main.getSharedFileDestination());
+    @FXML private File serverDir = new File(client.Main.getSharedFileDestination());
 
     @FXML private Button UploadButton;
     @FXML private Button DownloadButton;
+    @FXML private Button refreshWindow;
 
     @FXML private TextField computerName;
 
@@ -34,6 +37,7 @@ public class Controller {
     public Controller() throws IOException { /* */ }
 
     @FXML MenuItem exitClient;
+    @FXML MenuItem chooseFolder;
 
     /**
      * Runs when the UI is instantiated
@@ -71,6 +75,16 @@ public class Controller {
         clientFiles.setOnMouseClicked(actionEvent -> {
             clientFileName = clientFiles.getSelectionModel().getSelectedItem();
         });
+
+        chooseFolder.setOnAction(actionEvent -> {
+            try {
+                Dir();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        refreshWindow.setOnAction(actionEvent -> refresh());
     }
 
     /**
@@ -107,7 +121,6 @@ public class Controller {
         if (file == null) {
             file = "server.txt";
         }
-
         var output = new DataOutputStream(socket.getOutputStream());
         FileReader reader = new FileReader(serverDir + "/" + file);
 
@@ -118,6 +131,15 @@ public class Controller {
         }
         reader.close();
         output.close();
+        refresh();
+    }
+
+    public void Dir() throws IOException {
+        sendDirMessageToServer();
+        DirectoryChooser dirChooser = new DirectoryChooser();
+//        FileChooser chooseFile = new FileChooser();
+        serverDir = dirChooser.showDialog(client.Main.getPrimaryStage());
+        serverFiles.setItems(FXCollections.observableArrayList(serverDir.list()));
         refresh();
     }
 
@@ -147,6 +169,18 @@ public class Controller {
         output.flush();
     }
 
+    /**
+     * Send dir message to server telling the server to return the list
+     * @throws IOException
+     */
+    public void sendDirMessageToServer() throws IOException {
+        PrintWriter output = null;
+        output = new PrintWriter(new BufferedOutputStream(socket.getOutputStream()));
+        output.println("DIR");
+        output.println(serverDir);
+        output.flush();
+    }
+
     public void refresh() {
         Stage currentStage = client.Main.getPrimaryStage();
         currentStage.hide();
@@ -166,4 +200,5 @@ public class Controller {
         Stage currentStage = client.Main.getPrimaryStage();
         currentStage.close();
     }
+
 }

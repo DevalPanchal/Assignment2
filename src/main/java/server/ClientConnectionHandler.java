@@ -24,6 +24,8 @@ public class ClientConnectionHandler implements Runnable {
     private String testClientDynamic;
     private String testServerDynamic;
 
+    private int ThresholdSize = 5000;
+
     public ClientConnectionHandler(Socket socket) throws IOException {
         this.socket = socket;
     }
@@ -48,9 +50,7 @@ public class ClientConnectionHandler implements Runnable {
 
             String line = inputStream.next();
             serverPath = new File(inputStream.next());
-
             testClientDynamic = inputStream.next();
-
             testServerDynamic = testClientDynamic;
 
             System.out.println(line);
@@ -64,6 +64,8 @@ public class ClientConnectionHandler implements Runnable {
                     socket.close();
                 case "DOWNLOAD":
                     sendFile(socket, this.clientPath, testClientDynamic);
+                    socket.close();
+                case "DIR":
                     socket.close();
                 case "" :
                     inputStream.close();
@@ -93,17 +95,16 @@ public class ClientConnectionHandler implements Runnable {
         DataInputStream input = new DataInputStream(socket.getInputStream());
         FileOutputStream output = new FileOutputStream(file + "/" + sendPath);
 
-        byte[] content = new byte[4096];
+        byte[] content = new byte[ThresholdSize];
 
-        int fileSize = 15123;
+        int fileSize = ThresholdSize;
         int read = 0;
-        int totalRead = 0;
-        int remaining = fileSize;
+        int remainingBytes = fileSize;
 
-        while((read = input.read(content, 0, Math.min(content.length, remaining))) > 0) {
-            totalRead += read;
-            remaining -= read;
-            System.out.println("read " + totalRead + " bytes.");
+        int length = content.length;
+
+        while((read = input.read(content, 0, content.length)) > 0) {
+            remainingBytes -= read;
             output.write(content, 0, read);
         }
 

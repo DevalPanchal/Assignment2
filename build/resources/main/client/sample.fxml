@@ -19,7 +19,7 @@
             <Menu text="File">
                 <items>
                     <MenuItem fx:id="exitClient" text="Exit" styleClass="exitItem" />
-                    <MenuItem fx:id="directory" text="Directory" styleClass="directoryItem" />
+                    <MenuItem fx:id="chooseFolder" text="Choose Folder" styleClass="directoryItem" />
                 </items>
             </Menu>
         </menus>
@@ -29,6 +29,8 @@
         <Button fx:id="DownloadButton" GridPane.rowIndex="1" GridPane.columnIndex="0" text="Download" styleClass="btn" />
         <Button fx:id="UploadButton" GridPane.rowIndex="1" GridPane.columnIndex="1" text="Upload" styleClass="btn" />
         <TextField fx:id="computerName" GridPane.rowIndex="1" GridPane.columnIndex="2" text="" disable="true"/>
+        <Button fx:id="refreshWindow" text="Refresh" GridPane.rowIndex="1" GridPane.columnIndex="3" />
+
     </GridPane>
 
     <GridPane GridPane.rowIndex="2" GridPane.columnIndex="0">
