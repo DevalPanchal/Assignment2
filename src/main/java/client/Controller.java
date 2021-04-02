@@ -19,8 +19,9 @@ public class Controller {
     @FXML private ListView<String> clientFiles;
     @FXML private ListView<String> serverFiles;
 
-    @FXML private final File clientDir = new File(client.Main.getFileDestination());
-    @FXML private final File serverDir = new File("ServerDownload/");
+    @FXML private final File clientDir = new File("ClientDownload/");
+    // this is the shared folder aka server
+    @FXML private final File serverDir = new File(client.Main.getSharedFileDestination());
 
     @FXML private Button UploadButton;
     @FXML private Button DownloadButton;
@@ -128,7 +129,7 @@ public class Controller {
         PrintWriter output = null;
         output = new PrintWriter(new BufferedOutputStream(socket.getOutputStream()));
         output.println("UPLOAD");
-        output.println(client.Main.getFileDestination());
+        output.println(client.Main.getSharedFileDestination());
         output.println(clientFileName);
         output.flush();
     }
@@ -141,7 +142,7 @@ public class Controller {
         PrintWriter output = null;
         output = new PrintWriter(new BufferedOutputStream(socket.getOutputStream()));
         output.println("DOWNLOAD");
-        output.println(client.Main.getFileDestination());
+        output.println(client.Main.getSharedFileDestination());
         output.println(serverFileName);
         output.flush();
     }

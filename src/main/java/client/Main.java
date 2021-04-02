@@ -24,11 +24,11 @@ public class Main extends Application {
     public static String fileDestination;
     public static String computerName;
 
-    public static void setFileDestination(String file) {
+    public static void setSharedFileDestination(String file) {
         fileDestination = file;
     }
 
-    public static String getFileDestination() {
+    public static String getSharedFileDestination() {
         return fileDestination;
     }
 
@@ -52,7 +52,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         //System.out.println("This is the first args " + args[0]);
 //        fileDestination = args[0];
-        setFileDestination(args[0]);
+        setSharedFileDestination(args[0]);
 
         setComputerName(args[1]);
         System.out.println(args[0] + " " + args[1]);

@@ -11,8 +11,8 @@ import java.util.StringTokenizer;
 public class ClientConnectionHandler implements Runnable {
     private Socket socket = null;
 
-    private final File serverPath = new File("ServerDownload/");
-    private File clientPath = null;
+    private File serverPath = null;
+    private File clientPath = new File("ClientDownload/");
 
     private final String serverFile = "server.txt";
     private final String clientFile = "client.txt";
@@ -47,7 +47,7 @@ public class ClientConnectionHandler implements Runnable {
             PrintWriter outputStream = new PrintWriter(socket.getOutputStream(), true);
 
             String line = inputStream.next();
-            clientPath = new File(inputStream.next());
+            serverPath = new File(inputStream.next());
 
             testClientDynamic = inputStream.next();
 
