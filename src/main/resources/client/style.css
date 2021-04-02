@@ -1,0 +1,25 @@
+.menubar {
+    -fx-background-color: #6699ff;
+}
+
+.exitItem:hover, .directoryItem:hover {
+    -fx-cursor: hand;
+}
+
+.btn {
+    -fx-border-radius: 15px;
+    -fx-background-color: #282c34;
+    -fx-text-fill: #ffffff;
+}
+
+.btn:hover {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #000000;
+    -fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+    -fx-cursor: hand;
+}
+
+.btn:pressed {
+    -fx-background-color: #282c34;
+    -fx-text-fill: #ffffff;
+}
