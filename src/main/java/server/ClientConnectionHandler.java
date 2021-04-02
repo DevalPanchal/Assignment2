@@ -9,7 +9,6 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class ClientConnectionHandler implements Runnable {
-
     private Socket socket = null;
 
     private final File serverPath = new File("ServerDownload/");
@@ -21,6 +20,9 @@ public class ClientConnectionHandler implements Runnable {
     private PrintWriter outputStream;
     private ObjectInputStream objInputStream;
     private BufferedReader reader;
+
+    private String testClientDynamic;
+    private String testServerDynamic;
 
     public ClientConnectionHandler(Socket socket) throws IOException {
         this.socket = socket;
@@ -46,14 +48,23 @@ public class ClientConnectionHandler implements Runnable {
 
             String line = inputStream.next();
             clientPath = new File(inputStream.next());
+
+            testClientDynamic = inputStream.next();
+
+            testServerDynamic = testClientDynamic;
+
             System.out.println(line);
             System.out.println(clientPath);
+            System.out.println(testClientDynamic);
+            System.out.println(testServerDynamic);
 
             switch(line) {
                 case "UPLOAD" :
-                    sendFile(socket, this.serverPath, serverFile);
+                    sendFile(socket, this.serverPath, testServerDynamic);
+                    socket.close();
                 case "DOWNLOAD":
-                    sendFile(socket, this.clientPath, clientFile);
+                    sendFile(socket, this.clientPath, testClientDynamic);
+                    socket.close();
                 case "" :
                     inputStream.close();
                     socket.close();

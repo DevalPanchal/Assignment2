@@ -27,11 +27,16 @@ public class Controller {
 
     @FXML private TextField computerName;
 
+    public String serverFileName;
+    public String clientFileName;
+
     public Controller() throws IOException { /* */ }
 
     @FXML MenuItem exitClient;
 
-
+    /**
+     * Runs when the UI is instantiated
+     */
     public void initialize() {
         computerName.setText(client.Main.getComputerName());
         clientFiles.setItems(FXCollections.observableArrayList(clientDir.list()));
@@ -41,7 +46,7 @@ public class Controller {
 
         UploadButton.setOnAction(actionEvent -> {
             try {
-                upload("client.txt");
+                upload(clientFileName);
                 serverFiles.setItems(FXCollections.observableArrayList(serverDir.list()));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -50,15 +55,20 @@ public class Controller {
 
         DownloadButton.setOnAction(actionEvent -> {
             try {
-                download("server.txt");
+                download(serverFileName);
                 clientFiles.setItems(FXCollections.observableArrayList(clientDir.list()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
 
-        serverFiles.getSelectionModel().selectedItemProperty().addListener(actionEvent -> {
-            System.out.println("");
+        serverFiles.setOnMouseClicked(actionEvent -> {
+            serverFileName = serverFiles.getSelectionModel().getSelectedItem();
+            //System.out.println(serverFiles.getSelectionModel().getSelectedItem());
+        });
+
+        clientFiles.setOnMouseClicked(actionEvent -> {
+            clientFileName = clientFiles.getSelectionModel().getSelectedItem();
         });
     }
 
@@ -69,15 +79,17 @@ public class Controller {
      */
     public void upload(String file) throws IOException {
         sendUploadMessageToServer();
+        if (file == null) {
+            file = "client.txt";
+        }
+
         var output = new DataOutputStream(socket.getOutputStream());
         var input = new FileInputStream(clientDir + "/" + file);
 
         int character;
-
         while((character = input.read()) != -1) {
             output.write((char) character);
         }
-
         output.close();
         input.close();
         refresh();
@@ -91,8 +103,13 @@ public class Controller {
      */
     public void download(String file) throws IOException {
         sendDownloadMessageToServer();
+        if (file == null) {
+            file = "server.txt";
+        }
+
         var output = new DataOutputStream(socket.getOutputStream());
         FileReader reader = new FileReader(serverDir + "/" + file);
+
         int character;
         while ((character = reader.read()) != -1) {
             output.write((char) character);
@@ -100,27 +117,6 @@ public class Controller {
         }
         reader.close();
         output.close();
-        refresh();
-    }
-
-    /**
-     * Will cause the file selected in the right list to transfer from the remote server's shared
-     * folder to the local main.java.client's shared folder
-     * @param file
-     * @throws IOException
-     */
-    public void downloadDeprecrated(String file) throws IOException {
-        sendDownloadMessageToServer();
-
-        var output = new DataOutputStream(socket.getOutputStream());
-        var input = new FileInputStream(serverDir + "/" + file);
-
-        byte[] content = new byte[4096];
-        while(input.read(content) > 0) {
-            output.write(content);
-        }
-        output.close();
-        input.close();
         refresh();
     }
 
@@ -133,6 +129,7 @@ public class Controller {
         output = new PrintWriter(new BufferedOutputStream(socket.getOutputStream()));
         output.println("UPLOAD");
         output.println(client.Main.getFileDestination());
+        output.println(clientFileName);
         output.flush();
     }
 
@@ -145,6 +142,7 @@ public class Controller {
         output = new PrintWriter(new BufferedOutputStream(socket.getOutputStream()));
         output.println("DOWNLOAD");
         output.println(client.Main.getFileDestination());
+        output.println(serverFileName);
         output.flush();
     }
 
