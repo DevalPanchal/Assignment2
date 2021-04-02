@@ -24,7 +24,7 @@ and an option to exit or choose another shared directory (under the file tab).
 
 Step 1:
 
-Clone the main branch of the repo, and rename the project folder "Assignment2" after extracting it.
+Clone the main branch of the repo, and rename the project folder "Assignment2" after extracting it (if necessary).
 
 Step 2:
 
