@@ -11,13 +11,16 @@ This is an image of the UI:
 It features a download and upload button, display of the user's name (inputted on the command line), a directory refresh button,
 and an option to exit or choose another shared directory (under the file tab).
 
-# How to run this program on your device:
+
+# Technology version
 
 	IDE used: Intellij
 	Version of Java used: 15.0.2
 	Version of Gradle used: 6.6.1
 	Version of JavaFX used: 15.0.1
 	Linux VM Required (at least two terminals)
+	
+# How to run this program on your device:
 
 Step 1:
 
@@ -25,7 +28,7 @@ Clone the main branch of the repo, and rename the project folder "Assignment2" a
 
 Step 2:
 
-Open the project folder in Inteliji and add your own JavaFX library to the project modules under "Module Settings".
+Open the project folder in Intellij and add your own JavaFX library to the project modules under "Module Settings".
 
 Step 3:
 
