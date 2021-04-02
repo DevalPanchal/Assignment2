@@ -13,7 +13,7 @@ and an option to exit or choose another shared directory (under the file tab).
 
 # How to run this program on your device:
 
-	IDE used: Inteliji
+	IDE used: Intellij
 	Version of Java used: 15.0.2
 	Version of Gradle used: 6.6.1
 	Version of JavaFX used: 15.0.1
