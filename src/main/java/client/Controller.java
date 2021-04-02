@@ -14,6 +14,7 @@ import java.io.*;
 import java.net.Socket;
 
 public class Controller {
+
     private final int PORT = 8080;
     private final String HOSTNAME = "localhost";
     private final Socket socket = new Socket(HOSTNAME, PORT);
@@ -79,6 +80,7 @@ public class Controller {
         chooseFolder.setOnAction(actionEvent -> {
             try {
                 Dir();
+                clientFiles.setItems(FXCollections.observableArrayList(serverDir.list()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -139,7 +141,6 @@ public class Controller {
         DirectoryChooser dirChooser = new DirectoryChooser();
 //        FileChooser chooseFile = new FileChooser();
         serverDir = dirChooser.showDialog(client.Main.getPrimaryStage());
-        serverFiles.setItems(FXCollections.observableArrayList(serverDir.list()));
         refresh();
     }
 

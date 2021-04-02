@@ -92,6 +92,7 @@ public class ClientConnectionHandler implements Runnable {
     }
 
     public void sendFile(Socket socket, File file, String sendPath) throws IOException {
+
         DataInputStream input = new DataInputStream(socket.getInputStream());
         FileOutputStream output = new FileOutputStream(file + "/" + sendPath);
 
@@ -100,8 +101,6 @@ public class ClientConnectionHandler implements Runnable {
         int fileSize = ThresholdSize;
         int read = 0;
         int remainingBytes = fileSize;
-
-        int length = content.length;
 
         while((read = input.read(content, 0, content.length)) > 0) {
             remainingBytes -= read;
