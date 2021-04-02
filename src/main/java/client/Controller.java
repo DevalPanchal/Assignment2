@@ -35,6 +35,10 @@ public class Controller {
     public String serverFileName;
     public String clientFileName;
 
+    /**
+     * Controller constructor
+     * @throws IOException
+     */
     public Controller() throws IOException { /* */ }
 
     @FXML MenuItem exitClient;
@@ -44,12 +48,16 @@ public class Controller {
      * Runs when the UI is instantiated
      */
     public void initialize() {
+        // set the computer name
         computerName.setText(client.Main.getComputerName());
+        // setting the list view to the respective files in the directory
         clientFiles.setItems(FXCollections.observableArrayList(clientDir.list()));
         serverFiles.setItems(FXCollections.observableArrayList(serverDir.list()));
 
+        // exit event
         exitClient.setOnAction(actionEvent -> exit());
 
+        // handle upload on click
         UploadButton.setOnAction(actionEvent -> {
             try {
                 upload(clientFileName);
@@ -59,6 +67,7 @@ public class Controller {
             }
         });
 
+        // handle download on click
         DownloadButton.setOnAction(actionEvent -> {
             try {
                 download(serverFileName);
@@ -68,15 +77,18 @@ public class Controller {
             }
         });
 
+        // handle the click on the files on the server [right listview]
         serverFiles.setOnMouseClicked(actionEvent -> {
             serverFileName = serverFiles.getSelectionModel().getSelectedItem();
             //System.out.println(serverFiles.getSelectionModel().getSelectedItem());
         });
 
+        // handle the click on the files on the client [left listview]
         clientFiles.setOnMouseClicked(actionEvent -> {
             clientFileName = clientFiles.getSelectionModel().getSelectedItem();
         });
 
+        // handle the directory chooser
         chooseFolder.setOnAction(actionEvent -> {
             try {
                 Dir();
@@ -86,6 +98,7 @@ public class Controller {
             }
         });
 
+        // refreshes the window
         refreshWindow.setOnAction(actionEvent -> refresh());
     }
 
@@ -136,6 +149,10 @@ public class Controller {
         refresh();
     }
 
+    /**
+     * Choose the directory that the user wants to send the files from
+     * @throws IOException
+     */
     public void Dir() throws IOException {
         sendDirMessageToServer();
         DirectoryChooser dirChooser = new DirectoryChooser();
@@ -182,6 +199,9 @@ public class Controller {
         output.flush();
     }
 
+    /**
+     * Refreshes the entire window page effectively making a new window with updated listviews
+     */
     public void refresh() {
         Stage currentStage = client.Main.getPrimaryStage();
         currentStage.hide();
@@ -197,6 +217,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Exits the current stage
+     */
     public void exit() {
         Stage currentStage = client.Main.getPrimaryStage();
         currentStage.close();

@@ -26,6 +26,11 @@ public class ClientConnectionHandler implements Runnable {
 
     private int ThresholdSize = 5000;
 
+    /**
+     * ClientConnectionHandler Constructor
+     * @param socket
+     * @throws IOException
+     */
     public ClientConnectionHandler(Socket socket) throws IOException {
         this.socket = socket;
     }
@@ -91,8 +96,8 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
-    public void sendFile(Socket socket, File file, String sendPath) throws IOException {
 
+    public void sendFile(Socket socket, File file, String sendPath) throws IOException {
         DataInputStream input = new DataInputStream(socket.getInputStream());
         FileOutputStream output = new FileOutputStream(file + "/" + sendPath);
 

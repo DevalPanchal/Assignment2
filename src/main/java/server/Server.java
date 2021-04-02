@@ -23,11 +23,20 @@ public class Server {
     private ServerSocket socket = null;
     private int port;
 
+    /**
+     * Server constructor with the port number as the argument
+     * @param port
+     * @throws IOException
+     */
     public Server(int port) throws IOException {
         this.port = port;
         socket = new ServerSocket(port);
     }
 
+    /**
+     * Handles the client connections on socket
+     * @throws IOException
+     */
     public void handleRequests() throws IOException {
         System.out.printf("Server is listening on port %d.\n", this.port);
         ExecutorService threadPool = Executors.newFixedThreadPool(10);
@@ -39,6 +48,11 @@ public class Server {
         }
     }
 
+    /**
+     * Main function that runs the server
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         int port = 8080;
         try {
