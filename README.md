@@ -12,7 +12,7 @@ It features a download and upload button, display of the user's name (inputted o
 and an option to exit or choose another shared directory (under the file tab).
 
 
-# Technology version
+# Software requirements:
 
 	IDE used: Intellij
 	Version of Java used: 15.0.2
@@ -40,3 +40,18 @@ Step 4:
 In a seperate terminal (also with the project folder as its specified directory) run the client UI with the line:
 	"gradle run --args='ClientDownload/ *YourNameHere*'
 	
+# Operating the UI:
+
+After you have successfully gotten the program running, you may be curious on how to operate the program itself.
+
+Before you are able to share any of your files, make sure to store them in the "ClientDownload" folder located in the project folder.
+
+To upload, click any file on the left side to select a target for uploading then click the "Upload" button.
+
+To download, click any file on the right side to select a target for downloading then click the "Download" button.
+
+If you wish to refresh the listed contents of your "ClientDownload" folder, hit the "Refresh" button.
+
+To select a different folder to upload and download from, click the "File" tab at the top and select "Choose Base Folder".
+
+To exit the program, click the "File" tab at the top and select "Exit".
