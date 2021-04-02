@@ -55,3 +55,11 @@ If you wish to refresh the listed contents of your "ClientDownload" folder, hit 
 To select a different folder to upload and download from, click the "File" tab at the top and select "Choose Base Folder".
 
 To exit the program, click the "File" tab at the top and select "Exit".
+
+# References:
+Resources used to complete this project
+![Reading File Character by Character](https://www.codejava.net/java-se/file-io/how-to-read-and-write-text-file-in-java)
+![List View](https://docs.oracle.com/javafx/2/ui_controls/list-view.htm)
+![Socket Programming Examples](https://cs.lmu.edu/~ray/notes/javanetexamples/)
+![DataInputStream](https://docs.oracle.com/javase/7/docs/api/java/io/DataInputStream.html)
+Professor Mariana's Http Server Starter Code
